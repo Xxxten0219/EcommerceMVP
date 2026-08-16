@@ -9,6 +9,7 @@ from app.core.config import get_settings
 from app.db.base import create_all_tables
 from app.db.session import SessionLocal
 from app.services.seed import seed_demo_organization
+from app.services.simulation import seed_demo_analytics
 
 settings = get_settings()
 
@@ -19,6 +20,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     create_all_tables()
     with SessionLocal() as session:
         seed_demo_organization(session)
+        seed_demo_analytics(session)
     yield
 
 

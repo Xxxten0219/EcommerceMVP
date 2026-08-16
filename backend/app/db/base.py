@@ -7,6 +7,6 @@ class Base(DeclarativeBase):
 
 def create_all_tables() -> None:
     from app.db.session import engine
-    from app.models import communication, organization  # noqa: F401
+    from app.models import analytics, communication, organization  # noqa: F401
 
     Base.metadata.create_all(bind=engine)
