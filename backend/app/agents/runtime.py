@@ -1,5 +1,4 @@
 import json
-from datetime import date
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -15,6 +14,7 @@ from app.schemas.agent import AgentRunRead, ToolCallRead
 from app.schemas.communication import MessageRead
 from app.schemas.tools import SalesMetricsOutput, SalesTrendOutput
 from app.services.communication import create_user_message, require_conversation_access
+from app.skills.selection import render_selection_analysis, run_selection_workflow
 from app.tools.registry import ToolExecutionContext, ToolRunner
 
 SYSTEM_PROMPTS = {
@@ -110,7 +110,10 @@ def run_basic_agent(
             )
         )
         outputs: list[tuple[str, dict]] = []
-        if department.code in {"sales", "selection"}:
+        selection_analysis = None
+        if department.code == "selection":
+            selection_analysis, outputs = run_selection_workflow(runner, scope)
+        elif department.code == "sales":
             sales = runner.run(
                 "query_sales_metrics",
                 {
@@ -132,25 +135,23 @@ def run_basic_agent(
                 )
                 outputs.append(("calculate_sales_trend", trend.model_dump(mode="json")))
 
-        if department.code == "selection":
-            inventory = runner.run(
-                "query_inventory_status",
-                {
-                    "site": scope["site"],
-                    "platform": scope["platform"],
-                    "as_of": date.fromisoformat(scope["end_date"]),
-                    "category": scope.get("category"),
-                    "product_name": scope.get("product_name"),
-                },
-            )
-            outputs.append(("query_inventory_status", inventory.model_dump(mode="json")))
-
         history = list_messages(session, conversation_id, 10)
         provider_text = provider.generate(
             [
                 {"role": "system", "content": SYSTEM_PROMPTS[department.code]},
+                {
+                    "role": "system",
+                    "content": f"项目摘要：{project_record.summary or '暂无'}",
+                },
+                {
+                    "role": "system",
+                    "content": f"当前结构化范围：{json.dumps(scope, ensure_ascii=False)}",
+                },
                 *[{"role": item.role, "content": item.content} for item in history],
-                {"role": "system", "content": json.dumps(outputs, ensure_ascii=False)},
+                {
+                    "role": "system",
+                    "content": f"最新工具结果：{json.dumps(outputs, ensure_ascii=False)}",
+                },
             ]
         )
         details = []
@@ -171,10 +172,8 @@ def run_basic_agent(
                 f"趋势：{validated_trend.direction}，"
                 f"最近环比 {validated_trend.latest_mom_rate:.1%}。"
             )
-        if department.code == "selection":
-            details.append(
-                "库存数据已通过 query_inventory_status 获取；补货规则将在选品 Skill 中计算。"
-            )
+        if selection_analysis:
+            details = [render_selection_analysis(selection_analysis)]
         answer = provider_text + ("\n\n" + "\n".join(details) if details else "")
 
         for tool_name, output in outputs:

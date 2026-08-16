@@ -752,6 +752,53 @@ main {
   background: rgba(184, 232, 91, 0.28);
 }
 
+.overview-picker {
+  display: grid;
+  gap: 7px;
+  min-width: 150px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.overview-picker select {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.decision-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.decision-grid article {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.decision-grid article > span,
+.decision-grid small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.decision-grid h2 {
+  margin: 8px 0;
+  font-family: Georgia, serif;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.decision-grid p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 .upload-zone {
   display: grid;
   grid-template-columns: 180px 1fr auto;
