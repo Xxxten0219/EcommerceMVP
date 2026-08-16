@@ -59,6 +59,8 @@ def test_agent_run_uses_controlled_tools_and_persists_trace() -> None:
         "query_sales_metrics",
         "calculate_sales_trend",
         "query_inventory_status",
+        "calculate_inventory_pressure",
+        "recommend_restock",
     ]
     assert trace.status_code == 200
     assert all(item["status"] == "succeeded" for item in trace.json())
