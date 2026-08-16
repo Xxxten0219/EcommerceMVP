@@ -677,6 +677,228 @@ main {
   background: rgba(255, 255, 255, 0.56);
 }
 
+.project-workspace {
+  padding: 22px 0 32px;
+}
+
+.project-workspace .chat-shell {
+  margin-top: 12px;
+}
+
+.workflow-tabs {
+  display: inline-flex;
+  gap: 5px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.workflow-tabs button {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 7px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 12px;
+}
+
+.workflow-tabs button.active {
+  color: white;
+  background: var(--ink);
+}
+
+.import-workspace {
+  min-height: 680px;
+  margin-top: 12px;
+  padding: 34px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.import-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--line);
+}
+
+.import-heading h1 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 38px;
+  font-weight: 500;
+}
+
+.import-heading p:last-child {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.batch-status {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(81, 139, 234, 0.15);
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.batch-status.completed {
+  background: rgba(184, 232, 91, 0.28);
+}
+
+.upload-zone {
+  display: grid;
+  grid-template-columns: 180px 1fr auto;
+  gap: 12px;
+  align-items: end;
+  padding: 25px 0;
+}
+
+.upload-zone label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.upload-zone select,
+.file-picker,
+.upload-zone button {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.file-picker {
+  display: flex !important;
+  align-items: center;
+  color: var(--ink) !important;
+  overflow: hidden;
+}
+
+.file-picker input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.upload-zone button,
+.confirm-import {
+  border-color: var(--ink);
+  color: white;
+  background: var(--ink);
+}
+
+.import-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+  margin: 20px 0;
+}
+
+.import-stats div {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.import-stats span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.import-stats strong {
+  font-family: Georgia, serif;
+  font-size: 23px;
+  font-weight: 500;
+}
+
+.mapping-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.mapping-strip span {
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(81, 139, 234, 0.09);
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+}
+
+.mapping-strip b {
+  color: var(--blue);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.table-wrap th,
+.table-wrap td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table-wrap th {
+  background: rgba(23, 32, 22, 0.05);
+  font-weight: 700;
+}
+
+.error-list {
+  margin: 18px 0;
+  padding: 16px;
+  border: 1px solid rgba(213, 93, 69, 0.24);
+  border-radius: 10px;
+  background: rgba(255, 119, 95, 0.07);
+}
+
+.error-list > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.error-list a {
+  color: #9c4333;
+  font-size: 11px;
+}
+
+.error-list p {
+  margin: 8px 0 0;
+  color: #725148;
+  font-size: 11px;
+}
+
+.confirm-import {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 9px;
+}
+
 .conversation-sidebar {
   min-height: 680px;
   padding: 18px;
@@ -928,6 +1150,14 @@ main {
 
   .chat-shell {
     grid-template-columns: 200px minmax(0, 1fr);
+  }
+
+  .upload-zone {
+    grid-template-columns: 1fr;
+  }
+
+  .import-stats {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .department-card {
