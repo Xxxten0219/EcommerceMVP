@@ -26,7 +26,7 @@ from app.services.metrics import (
     recommend_restock,
 )
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("uvicorn.error")
 
 
 @dataclass(frozen=True)

@@ -18,7 +18,7 @@ from app.services.communication import create_user_message, require_conversation
 from app.skills.selection import render_selection_analysis, run_selection_workflow
 from app.tools.registry import ToolExecutionContext, ToolRunner
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("uvicorn.error")
 
 SYSTEM_PROMPTS = {
     "artwork": "你是美工工作流助手，只解释图片版本与编辑状态。",
