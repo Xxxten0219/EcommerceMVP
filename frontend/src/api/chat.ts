@@ -1,4 +1,4 @@
-import type { ChatMessage, Conversation } from "../types/domain";
+import type { AgentRun, ChatMessage, Conversation } from "../types/domain";
 import { apiRequest } from "./client";
 
 export function fetchConversations(projectId: string, userId: string): Promise<Conversation[]> {
@@ -39,6 +39,17 @@ export function sendMessage(
   content: string,
 ): Promise<ChatMessage> {
   return apiRequest(`/conversations/${conversationId}/messages`, {
+    method: "POST",
+    body: JSON.stringify({ user_id: userId, content }),
+  });
+}
+
+export function runAgent(
+  conversationId: string,
+  userId: string,
+  content: string,
+): Promise<AgentRun> {
+  return apiRequest(`/conversations/${conversationId}/agent-runs`, {
     method: "POST",
     body: JSON.stringify({ user_id: userId, content }),
   });

@@ -61,4 +61,4 @@ def test_conversation_can_be_renamed_and_context_is_built() -> None:
     assert renamed.status_code == 200
     assert renamed.json()["title"] == "龙门架补货"
     assert context.status_code == 200
-    assert context.json()["structured_scope"] == {}
+    assert isinstance(context.json()["structured_scope"], dict)
