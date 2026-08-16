@@ -4,6 +4,7 @@ from app.api.v1.agent import router as agent_router
 from app.api.v1.analytics import router as analytics_router
 from app.api.v1.communication import router as communication_router
 from app.api.v1.health import router as health_router
+from app.api.v1.images import router as images_router
 from app.api.v1.imports import router as imports_router
 from app.api.v1.organization import router as organization_router
 
@@ -14,3 +15,4 @@ api_router.include_router(communication_router)
 api_router.include_router(imports_router)
 api_router.include_router(agent_router)
 api_router.include_router(analytics_router)
+api_router.include_router(images_router)

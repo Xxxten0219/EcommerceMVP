@@ -9,6 +9,7 @@ from app.models.analytics import (
     SalesFact,
 )
 from app.models.communication import Attachment, Conversation, Message
+from app.models.image import ImageVersion
 from app.models.organization import Department, Project, ProjectMember, User
 
 __all__ = [
@@ -18,6 +19,7 @@ __all__ = [
     "Department",
     "ImportBatch",
     "ImportError",
+    "ImageVersion",
     "InventorySnapshot",
     "Message",
     "Project",

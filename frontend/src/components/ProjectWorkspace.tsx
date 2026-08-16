@@ -15,6 +15,7 @@ import type {
   Department,
   Project,
 } from "../types/domain";
+import { ArtworkPanel } from "./ArtworkPanel";
 import { SalesImportPanel } from "./SalesImportPanel";
 import { SelectionOverview } from "./SelectionOverview";
 
@@ -37,7 +38,7 @@ export function ProjectWorkspace({
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [workspaceMode, setWorkspaceMode] = useState<"chat" | "import" | "overview">("chat");
+  const [workspaceMode, setWorkspaceMode] = useState<"chat" | "import" | "overview" | "image">("chat");
 
   const activeConversation = conversations.find(
     (conversation) => conversation.id === activeConversationId,
@@ -137,10 +138,18 @@ export function ProjectWorkspace({
           <button className={workspaceMode === "overview" ? "active" : ""} onClick={() => setWorkspaceMode("overview")}>决策概览</button>
         </nav>
       )}
+      {department.code === "artwork" && (
+        <nav className="workflow-tabs" aria-label="美工项目功能">
+          <button className={workspaceMode === "chat" ? "active" : ""} onClick={() => setWorkspaceMode("chat")}>项目聊天</button>
+          <button className={workspaceMode === "image" ? "active" : ""} onClick={() => setWorkspaceMode("image")}>图片编辑</button>
+        </nav>
+      )}
       {workspaceMode === "import" && department.code === "sales" ? (
         <SalesImportPanel project={project} currentUser={currentUser} />
       ) : workspaceMode === "overview" && department.code === "selection" ? (
         <SelectionOverview project={project} currentUser={currentUser} />
+      ) : workspaceMode === "image" && department.code === "artwork" ? (
+        <ArtworkPanel project={project} currentUser={currentUser} conversationId={activeConversationId} />
       ) : (
       <section className="chat-shell">
       <aside className="conversation-sidebar">
