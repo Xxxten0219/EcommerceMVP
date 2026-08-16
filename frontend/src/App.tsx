@@ -6,6 +6,7 @@ import { AdminPanel } from "./components/AdminPanel";
 import { Dashboard } from "./components/Dashboard";
 import { DemoNotice } from "./components/DemoNotice";
 import { DepartmentView } from "./components/DepartmentView";
+import { ProjectWorkspace } from "./components/ProjectWorkspace";
 import type { DemoUser, Department, Project } from "./types/domain";
 import type { HealthResponse } from "./types/health";
 
@@ -172,13 +173,13 @@ function App() {
         />
       )}
 
-      {view === "project" && selectedProject && (
-        <section className="workspace-page empty-state">
-          <p className="kicker">PROJECT WORKSPACE</p>
-          <h1>{selectedProject.name}</h1>
-          <p>聊天与部门工作流将在后续里程碑接入。</p>
-          <button type="button" onClick={() => setView("department")}>返回项目列表</button>
-        </section>
+      {view === "project" && selectedProject && selectedDepartment && currentUser && (
+        <ProjectWorkspace
+          project={selectedProject}
+          department={selectedDepartment}
+          currentUser={currentUser}
+          onBack={() => setView("department")}
+        />
       )}
 
       <footer className="page-footer">
