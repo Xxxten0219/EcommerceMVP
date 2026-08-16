@@ -1,4 +1,5 @@
 import json
+import logging
 from collections.abc import Callable
 from dataclasses import dataclass
 from time import perf_counter
@@ -24,6 +25,8 @@ from app.services.metrics import (
     query_sales_metrics,
     recommend_restock,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -121,3 +124,10 @@ class ToolRunner:
         finally:
             call.duration_ms = max(0, round((perf_counter() - started) * 1000))
             self.context.session.commit()
+            logger.info(
+                "tool_call run_id=%s tool=%s status=%s duration_ms=%s",
+                self.context.agent_run_id,
+                call.tool_name,
+                call.status,
+                call.duration_ms,
+            )
