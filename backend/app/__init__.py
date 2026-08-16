@@ -1,0 +1,1 @@
+"""EcommerceMVP backend application."""
