@@ -2,15 +2,15 @@
 
 ## M0 第一阶段
 
-- [ ] 当前目录仅包含本项目，新仓库远程为 `https://github.com/Xxxten0219/EcommerceMVP.git`。
-- [ ] GitHub CLI 已登录正确账号，Git 默认分支为 `main`。
-- [ ] 七份设计文档和 `AGENTS.md` 已提交。
-- [ ] `.gitignore` 排除密钥、SQLite、上传和生成文件；仓库仅提供 `.env.example`。
-- [ ] `GET /api/v1/health` 能检查 API 和 SQLite，并返回稳定结构。
-- [ ] React 首页展示三个部门入口及“演示角色切换，不代表真实身份认证”。
-- [ ] 本地后端测试通过，前端测试/构建通过。
-- [ ] `docker compose up --build` 可启动前后端，容器健康检查通过。
-- [ ] 初始化 Commit 已推送 `main`，后续 M1–M7 Issues 已创建。
+- [x] 当前目录仅包含本项目，新仓库远程为 `https://github.com/Xxxten0219/EcommerceMVP.git`。
+- [x] GitHub CLI 已登录正确账号，Git 默认分支为 `main`。
+- [x] 七份设计文档和 `AGENTS.md` 已提交。
+- [x] `.gitignore` 排除密钥、SQLite、上传和生成文件；仓库仅提供 `.env.example`。
+- [x] `GET /api/v1/health` 能检查 API 和 SQLite，并返回稳定结构。
+- [x] React 首页展示三个部门入口及“演示角色切换，不代表真实身份认证”。
+- [x] 本地后端测试通过，前端测试/构建通过。
+- [x] `docker compose up --build` 可启动前后端，容器健康检查通过。
+- [x] 初始化 Commit 已推送 `main`，后续 M1–M7 Issues 已创建。
 
 ## 权限与聊天（M1–M2）
 
@@ -46,7 +46,7 @@
 
 ## 演示与质量（M7）
 
-- 最近 18 个月固定种子数据覆盖指定商品与五类业务情形。
-- 自动化测试覆盖核心成功、校验失败、权限拒绝、回滚和重试场景。
-- 日志可按 Agent Run 追踪 Tool 链路且不泄露密钥。
-- Git 历史无数据库、上传、生成图片、真实 Key 或 Token。
+- [x] 最近 18 个月固定种子数据覆盖指定商品与五类业务情形。
+- [x] 自动化测试覆盖核心成功、校验失败、权限拒绝、回滚和重试场景。
+- [x] 日志可按 Agent Run 追踪 Tool 链路且不泄露密钥。
+- [x] Git 跟踪文件无数据库、上传、生成图片、真实 Key 或 Token。

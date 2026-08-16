@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import {
   createConversation,
+  fetchAgentRun,
   fetchConversations,
   fetchMessages,
   renameConversation,
@@ -9,6 +10,7 @@ import {
   sendMessage,
 } from "../api/chat";
 import type {
+  AgentRun,
   ChatMessage,
   Conversation,
   DemoUser,
@@ -38,6 +40,7 @@ export function ProjectWorkspace({
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [lastAgentRun, setLastAgentRun] = useState<AgentRun | null>(null);
   const [workspaceMode, setWorkspaceMode] = useState<"chat" | "import" | "overview" | "image">("chat");
 
   const activeConversation = conversations.find(
@@ -55,9 +58,25 @@ export function ProjectWorkspace({
     async (conversationId: string) => {
       if (!conversationId) {
         setMessages([]);
+        setLastAgentRun(null);
         return;
       }
-      setMessages(await fetchMessages(conversationId, currentUser.id));
+      const items = await fetchMessages(conversationId, currentUser.id);
+      setMessages(items);
+      const lastRunId = [...items].reverse().find((item) => {
+        if (item.role !== "assistant") return false;
+        try {
+          return Boolean((JSON.parse(item.metadata_json) as { agent_run_id?: string }).agent_run_id);
+        } catch {
+          return false;
+        }
+      });
+      if (!lastRunId) {
+        setLastAgentRun(null);
+        return;
+      }
+      const metadata = JSON.parse(lastRunId.metadata_json) as { agent_run_id: string };
+      setLastAgentRun(await fetchAgentRun(metadata.agent_run_id, currentUser.id));
     },
     [currentUser.id],
   );
@@ -113,7 +132,7 @@ export function ProjectWorkspace({
       if (department.code === "artwork") {
         await sendMessage(activeConversationId, currentUser.id, content);
       } else {
-        await runAgent(activeConversationId, currentUser.id, content);
+        setLastAgentRun(await runAgent(activeConversationId, currentUser.id, content));
       }
       setDraft("");
       await Promise.all([loadMessageList(activeConversationId), loadConversationList()]);
@@ -221,6 +240,22 @@ export function ProjectWorkspace({
             {busy ? "运行中…" : "发送"}
           </button>
         </form>
+        {lastAgentRun && (
+          <details className="tool-trace">
+            <summary>
+              运行追踪 · {lastAgentRun.provider}/{lastAgentRun.model_name} · {lastAgentRun.tool_calls.length} 个工具
+            </summary>
+            <div>
+              {lastAgentRun.tool_calls.map((call, index) => (
+                <article key={call.id}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{call.tool_name}</strong>
+                  <small>{call.status} · {call.duration_ms} ms</small>
+                </article>
+              ))}
+            </div>
+          </details>
+        )}
       </div>
       </section>
       )}

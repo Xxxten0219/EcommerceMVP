@@ -58,7 +58,12 @@ export type ToolCall = {
 
 export type AgentRun = {
   id: string;
+  provider: string;
+  model_name: string;
   status: "running" | "completed" | "failed";
+  started_at: string;
+  completed_at: string | null;
+  error_message: string | null;
   assistant_message: ChatMessage | null;
   tool_calls: ToolCall[];
 };

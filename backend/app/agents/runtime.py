@@ -1,4 +1,5 @@
 import json
+import logging
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -16,6 +17,8 @@ from app.schemas.tools import SalesMetricsOutput, SalesTrendOutput
 from app.services.communication import create_user_message, require_conversation_access
 from app.skills.selection import render_selection_analysis, run_selection_workflow
 from app.tools.registry import ToolExecutionContext, ToolRunner
+
+logger = logging.getLogger("uvicorn.error")
 
 SYSTEM_PROMPTS = {
     "artwork": "你是美工工作流助手，只解释图片版本与编辑状态。",
@@ -200,6 +203,12 @@ def run_basic_agent(
         session.commit()
         session.refresh(run)
         session.refresh(assistant)
+        logger.info(
+            "agent_run run_id=%s department=%s status=completed tool_count=%s",
+            run.id,
+            department.code,
+            len(run.tool_calls),
+        )
         return run_to_read(run, assistant)
     except Exception as error:
         session.rollback()
@@ -209,4 +218,9 @@ def run_basic_agent(
             failed_run.error_message = str(error)[:1000]
             failed_run.completed_at = utc_now()
             session.commit()
+            logger.exception(
+                "agent_run run_id=%s department=%s status=failed",
+                failed_run.id,
+                department.code,
+            )
         raise

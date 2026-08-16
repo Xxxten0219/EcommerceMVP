@@ -5,8 +5,8 @@
 - 基础路径：`/api/v1`。
 - JSON 字段使用 `snake_case`；时间为 ISO 8601 UTC。
 - 请求与响应使用 Pydantic 模型，前端维护对应 TypeScript 类型。
-- 错误响应统一包含 `code`、`message`、可选 `details` 和 `request_id`。
-- 列表端点统一使用 `limit`、`offset`，并返回 `items` 与 `total`。
+- 错误响应使用 FastAPI `detail`；前端不显示内部堆栈或 Provider 凭据。
+- MVP 数据量较小，列表端点直接返回类型化数组；分页留待企业化阶段加入。
 - MVP 角色由显式演示用户选择传入；后端仍校验项目成员关系，不能只依赖前端隐藏。
 
 ## 2. M0 接口
@@ -31,12 +31,11 @@
 
 ### 管理与项目（M1）
 
-- `GET/POST /departments`
+- `GET /departments`
 - `GET/POST /users`
 - `GET/POST /projects`
-- `GET/PATCH /projects/{project_id}`
-- `POST/DELETE /projects/{project_id}/members/{user_id}`
-- `GET /users/{user_id}/projects?department_id=...`
+- `POST /projects/{project_id}/members`
+- `DELETE /projects/{project_id}/members/{user_id}`
 
 ### 聊天（M2）
 
@@ -59,9 +58,8 @@
 
 ### 指标与选品（M4–M5）
 
-- `POST /analytics/sales`
-- `POST /analytics/inventory`
-- `POST /analytics/restock`
+- `GET /projects/{project_id}/selection-overview`
+- `POST /conversations/{conversation_id}/agent-runs`
 - `GET /agent-runs/{run_id}`
 - `GET /agent-runs/{run_id}/tool-calls`
 

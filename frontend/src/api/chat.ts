@@ -54,3 +54,7 @@ export function runAgent(
     body: JSON.stringify({ user_id: userId, content }),
   });
 }
+
+export function fetchAgentRun(runId: string, userId: string): Promise<AgentRun> {
+  return apiRequest(`/agent-runs/${runId}?user_id=${encodeURIComponent(userId)}`);
+}

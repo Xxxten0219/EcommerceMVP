@@ -26,14 +26,14 @@ def resolve_scope(text: str, previous: dict[str, str] | None = None) -> dict[str
             scope["product_name"] = name
             break
 
-    if "上个月" in text:
+    if "18个月" in text or "十八个月" in text:
+        start = _shift_month(_month_start(today), -17)
+        end = today
+    elif "上个月" in text:
         start = _shift_month(_month_start(today), -1)
         end = date(start.year, start.month, calendar.monthrange(start.year, start.month)[1])
     elif "本月" in text:
         start = _month_start(today)
-        end = today
-    elif "18个月" in text or "十八个月" in text:
-        start = _shift_month(_month_start(today), -17)
         end = today
     else:
         start = _shift_month(_month_start(today), -5)
