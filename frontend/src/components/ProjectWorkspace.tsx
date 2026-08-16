@@ -5,6 +5,7 @@ import {
   fetchConversations,
   fetchMessages,
   renameConversation,
+  runAgent,
   sendMessage,
 } from "../api/chat";
 import type {
@@ -107,7 +108,11 @@ export function ProjectWorkspace({
     setBusy(true);
     setError("");
     try {
-      await sendMessage(activeConversationId, currentUser.id, content);
+      if (department.code === "artwork") {
+        await sendMessage(activeConversationId, currentUser.id, content);
+      } else {
+        await runAgent(activeConversationId, currentUser.id, content);
+      }
       setDraft("");
       await Promise.all([loadMessageList(activeConversationId), loadConversationList()]);
     } catch (reason) {
@@ -176,13 +181,13 @@ export function ProjectWorkspace({
             <div className="chat-empty">
               <span>⌁</span>
               <strong>开始新的项目对话</strong>
-              <p>当前 M2 会先保存消息；Agent 将在后续里程碑接入。</p>
+              <p>询问销售、库存或补货问题，Agent 会通过受控工具获取数据。</p>
             </div>
           )}
           {messages.map((message) => (
             <article className={`message ${message.role}`} key={message.id}>
-              <span>{message.role === "user" ? currentUser.display_name : message.role}</span>
-              <p>{message.content}</p>
+              <span>{message.role === "user" ? currentUser.display_name : message.role === "tool" ? "工具结果" : "Agent"}</span>
+              <p>{message.role === "tool" ? "已保存结构化工具结果" : message.content}</p>
             </article>
           ))}
         </div>
@@ -194,7 +199,9 @@ export function ProjectWorkspace({
             placeholder={activeConversation ? "输入项目问题或工作要求…" : "请先新建聊天"}
             disabled={!activeConversation || busy}
           />
-          <button type="submit" disabled={!activeConversation || busy || !draft.trim()}>发送</button>
+          <button type="submit" disabled={!activeConversation || busy || !draft.trim()}>
+            {busy ? "运行中…" : "发送"}
+          </button>
         </form>
       </div>
       </section>

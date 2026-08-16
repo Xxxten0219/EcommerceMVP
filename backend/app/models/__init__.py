@@ -1,5 +1,6 @@
 """SQLAlchemy persistence models."""
 
+from app.models.agent import AgentRun, ToolCall
 from app.models.analytics import (
     ImportBatch,
     ImportError,
@@ -12,6 +13,7 @@ from app.models.organization import Department, Project, ProjectMember, User
 
 __all__ = [
     "Attachment",
+    "AgentRun",
     "Conversation",
     "Department",
     "ImportBatch",
@@ -22,5 +24,6 @@ __all__ = [
     "ProjectMember",
     "Product",
     "SalesFact",
+    "ToolCall",
     "User",
 ]

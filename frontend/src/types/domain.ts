@@ -44,3 +44,21 @@ export type ChatMessage = {
   metadata_json: string;
   created_at: string;
 };
+
+export type ToolCall = {
+  id: string;
+  tool_name: string;
+  input: Record<string, unknown>;
+  output_summary: Record<string, unknown> | null;
+  status: "running" | "succeeded" | "failed";
+  duration_ms: number;
+  error_message: string | null;
+  created_at: string;
+};
+
+export type AgentRun = {
+  id: string;
+  status: "running" | "completed" | "failed";
+  assistant_message: ChatMessage | null;
+  tool_calls: ToolCall[];
+};
