@@ -69,11 +69,15 @@ Dashboard 和 Agent Tool 均调用相同领域服务，禁止各自复制指标�
 
 ### 图片编辑（M6）
 
-- `POST /projects/{project_id}/images`：上传不可变原图。
-- `POST /images/{attachment_id}/edits`：基于原图或版本创建编辑任务。
+- `POST /image-assets`：上传不可变原图，校验项目与聊天归属。
+- `GET /conversations/{conversation_id}/image-assets`：查看聊天原图。
+- `POST /image-versions`：基于原图或父版本创建编辑任务。
+- `GET /conversations/{conversation_id}/image-versions`：查看版本链和生成状态。
 - `POST /image-versions/{version_id}/retry`
-- `GET /image-versions/{version_id}`
-- `GET /image-versions/{version_id}/download`
+- `GET /attachments/{attachment_id}/content`：预览或下载有权访问的图片。
+
+真实 Provider 按百炼官方 Qwen-Image-Edit 同步 HTTP 契约调用
+`services/aigc/multimodal-generation/generation`；默认 Mock 模式不请求外部服务。
 
 ## 4. 受控 Tool 契约
 
